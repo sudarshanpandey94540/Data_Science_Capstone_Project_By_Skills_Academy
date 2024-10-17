@@ -1,12 +1,10 @@
 import pickle
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.datasets import make_regression
+from sklearn.ensemble import RandomForestRegressor  # or whatever model you are using
 
-# Create a sample dataset and train a model (replace this with your actual model)
-X, y = make_regression(n_samples=100, n_features=5, noise=0.1)
-model = RandomForestRegressor()
-model.fit(X, y)
+# Assuming you have a model object named 'model'
+model = RandomForestRegressor()  # replace with your actual model
+# Train your model here if needed
 
-# Save the trained model as app.pkl
 with open('app.pkl', 'wb') as file:
     pickle.dump(model, file)
+
