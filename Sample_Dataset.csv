@@ -1,0 +1,21 @@
+Car_Brand,Car_Name,Year,Selling_Price,Km_Driven,Fuel,Seller_Type,Transmission,Owner
+Honda,City,2010,400000,50000,Petrol,Individual,Manual,First Owner
+Mahindra,Bolero,2015,320000,50000,Diesel,Individual,Manual,Third Owner
+Renault,KWID,2016,280000,23000,Petrol,Individual,Manual,First Owner
+Fiat,Punto,2010,165000,100000,Petrol,Individual,Manual,Fourth & Above Owner
+Maruti,Swift,2009,270000,120000,Diesel,Individual,Manual,Second Owner
+Renault,Duster,2012,490000,100000,Diesel,Individual,Manual,First Owner
+Maruti,Ritz,2012,220000,120000,Diesel,Individual,Manual,Second Owner
+Mahindra,KUV,2016,430000,20000,Diesel,Individual,Manual,First Owner
+Mahindra,Thar,2018,950000,20000,Diesel,Individual,Manual,First Owner
+Maruti,Alto,2006,135000,90000,Petrol,Individual,Manual,Third Owner
+Maruti,Eeco,2019,380000,5000,Petrol,Individual,Manual,First Owner
+Datsun,GO,2017,375000,20000,Petrol,Individual,Manual,Second Owner
+Tata,Nexon,2017,750000,15000,Petrol,Individual,Manual,First Owner
+Ford,Figo,2018,711000,1452,Petrol,Dealer,Automatic,First Owner
+Maruti,Swift,2013,450000,100000,Diesel,Individual,Manual,Second Owner
+Maruti,Wagon,2013,229999,62000,Petrol,Individual,Manual,Second Owner
+Mahindra,TUV,2017,800000,25000,Diesel,Individual,Manual,First Owner
+Hyundai,i10,2011,175000,139000,Petrol,Individual,Manual,Second Owner
+Maruti,Baleno,2015,550000,30000,Petrol,Individual,Manual,First Owner
+Volkswagen,Jetta,2012,415000,80000,Diesel,Individual,Manual,Second Owner
