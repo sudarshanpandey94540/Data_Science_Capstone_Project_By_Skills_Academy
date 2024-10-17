@@ -27,7 +27,7 @@ for feature in category_col:
     label_encoders[feature] = label_encoder
 
 # Add CSS for background image
-image_path = https://imgs.search.brave.com/6M3HDhS5x87LhEBeq51A0rLpf8emC5gp0f6gg1BjP5M/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAzLzE1LzExLzE1/LzM2MF9GXzMxNTEx/MTUyMF9GcjdhVzE0/bm1kbkhVMHYxWDNk/NjlYOWdGNXNJbzJY/dS5qcGc # Replace with your new image URL
+image_path =<a href="https://imgbb.com/"><img src="https://i.ibb.co/BtHH4RG/gettyimages-1307086567-612x612.jpg" alt="gettyimages-1307086567-612x612" border="0"></a> # Replace with your new image URL
 st.markdown(
     f"""
     <style>
