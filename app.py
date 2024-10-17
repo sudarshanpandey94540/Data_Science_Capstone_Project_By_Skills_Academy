@@ -25,7 +25,7 @@ def preprocess_data(df, label_encoders):
     return df
 
 # Add CSS for background image
-image_path = "https://raw.githubusercontent.com/vishal-verma-96/Capstone_Project_By_Skill_Academy/main/new_background_image.jpg"  # Replace with your new image URL
+image_path = "https://raw.githubusercontent.com/vishal-verma-96/Capstone_Project_By_Skill_Academy/main/new_background_image.jpg"
 st.markdown(
     f"""
     <style>
