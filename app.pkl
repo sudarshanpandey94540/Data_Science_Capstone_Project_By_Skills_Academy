@@ -1,11 +1,64 @@
+# Importing Necessary Libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
+
 import pickle as pkl
+import warnings
+warnings.filterwarnings("ignore")
 
+# Loading and preparing dataset
+df = pd.read_csv('Car_Details_Cleaned_Dataset.csv')
 
+# Creating a copy of the dataset
+data = df.copy()
+
+# Defining categorical and numerical columns
+categorical_col = ['Car_Brand', 'Car_Name', 'Fuel', 'Seller_Type', 'Transmission', 'Owner']
+numerical_col = ['Year', 'Selling_Price', 'Km_Driven']
+
+# Label encoding categorical columns
+label_encoder = {} 
+for col in categorical_col:
+    le = LabelEncoder()
+    data[col] = le.fit_transform(data[col])
+    label_encoder[col] = le
+
+# Separating Dependent and Independent Variables
+x = data.drop(["Selling_Price"], axis=1)
+y = data["Selling_Price"]
+
+# Splitting dataset into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
+
+# Standardizing numerical columns
+sc = StandardScaler()
+x_train[numerical_col] = sc.fit_transform(x_train[numerical_col])
+x_test[numerical_col] = sc.transform(x_test[numerical_col])
+
+# Training XGBoost Regressor
 xgb = XGBRegressor()
 xgb.fit(x_train, y_train)
 
-
+# Saving the trained XGBoost model
 with open('app.pkl', 'wb') as file:
     pkl.dump(xgb, file)
+
+# Saving the label encoders for use in the Streamlit app
+with open('label_encoders.pkl', 'wb') as file:
+    pkl.dump(label_encoder, file)
+
+# Saving the StandardScaler for use in the Streamlit app
+with open('scaler.pkl', 'wb') as file:
+    pkl.dump(sc, file)
+
+print("Model, encoders, and scaler have been saved successfully!")
 
 
