@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 # Load the model
 loaded_model = pickle.load(open('app.pkl', 'rb'))
@@ -11,12 +12,6 @@ cleaned_data = pd.read_csv('Car_Details_Cleaned_Dataset.csv')
 # Define categorical columns
 category_col = ['Car_Brand', 'Car_Name', 'Fuel', 'Seller_Type', 'Transmission', 'Owner']
 
-# Load the LabelEncoders used during training
-label_encoders = pickle.load(open('label_encoders.pkl', 'rb'))
-
-# Load the scaler used during training
-scaler = pickle.load(open('scaler.pkl', 'rb'))
-
 # Function for encoding data
 def preprocess_data(df, label_encoders):
     for feature in df.columns:
@@ -24,8 +19,15 @@ def preprocess_data(df, label_encoders):
             df[feature] = label_encoders[feature].transform(df[feature])
     return df
 
+# Load the LabelEncoders used during training
+label_encoders = {}
+for feature in category_col:
+    label_encoder = LabelEncoder()
+    label_encoder.fit(cleaned_data[feature])
+    label_encoders[feature] = label_encoder
+
 # Add CSS for background image
-image_path = "https://raw.githubusercontent.com/vishal-verma-96/Capstone_Project_By_Skill_Academy/main/new_background_image.jpg"
+image_path = "https://github.com/vishal-verma-96/Capstone_Project_By_Skill_Academy/blob/main/automotive.jpg?raw=true"
 st.markdown(
     f"""
     <style>
@@ -34,25 +36,25 @@ st.markdown(
         background-size: cover;
         background-position: center;
         height: 200px; 
-        opacity: 0.9; 
+        opacity: 0.85; 
         position: relative; 
         z-index: 1; 
         display: flex; 
         align-items: center; 
-        padding: 0 60px;}}
-    .header h1 {{
-        color: #f0f0f0; 
+        padding: 0 80px;}}
+    .header h1
+    {{
+        color: White; 
         margin: 0; 
-        padding: 25px; 
+        padding: 20px; 
         text-align: left; 
-        font-size: 2.5em; 
         flex: 1;}}
     .body-content {{
         margin-top: 30px;
     }}
     </style>
     <div class="header">
-        <h1><i>Smart Car Price Estimator</i></h1>
+        <h1><i>Car Selling Price Prediction App</i></h1>
     </div>
     <div class="body-content">
     """,
@@ -61,28 +63,28 @@ st.markdown(
 
 # Providing Sidebar
 st.sidebar.markdown("""
-This tool estimates the resale value of a car based on its attributes.
+This application predicts the selling price of a car based on various features.
 ### How to use:
-1. **Provide Car Details:** Input the car's specifications via the options provided.
-2. **Estimate Price:** Click the 'Estimate Price' button to view the resale price.
+1. **Select the Car Details:** Select the correct input of car characteristics from the provided options.
+2. **Predict Price:** Click on the 'Predict Selling Price' button to see the predicted price.
 """)
 
 # Encode the loaded dataset
 encoded_data = preprocess_data(cleaned_data.copy(), label_encoders)
 
 # Display sliders for numerical features
-km_driven = st.slider("How many kilometers has the car been driven?", min_value=int(cleaned_data["Km_Driven"].min()),
+km_driven = st.slider("Select Km Driven By Car:", min_value=int(cleaned_data["Km_Driven"].min()),
                       max_value=int(cleaned_data["Km_Driven"].max()))
-year = st.slider("Year the car was purchased:", min_value=int(cleaned_data["Year"].min()), max_value=int(cleaned_data["Year"].max()))
+year = st.slider("Select Purchasing Year:", min_value=int(cleaned_data["Year"].min()), max_value=int(cleaned_data["Year"].max()))
 
 # Display dropdowns for categorical features
-selected_brand = st.selectbox("Choose the car's brand:", cleaned_data["Car_Brand"].unique())
+selected_brand = st.selectbox("Select Car Brand:", cleaned_data["Car_Brand"].unique())
 brand_filtered_df = cleaned_data[cleaned_data['Car_Brand'] == selected_brand]
-selected_model = st.selectbox("Choose the car's model:", brand_filtered_df["Car_Name"].unique())
-selected_fuel = st.radio("Select the type of fuel:", cleaned_data["Fuel"].unique())
-selected_seller_type = st.radio("What type of seller are you?", cleaned_data["Seller_Type"].unique())
-selected_transmission = st.radio("Transmission type:", cleaned_data["Transmission"].unique())
-selected_owner = st.radio("Number of previous owners:", cleaned_data["Owner"].unique())
+selected_model = st.selectbox("Select Car Model:", brand_filtered_df["Car_Name"].unique())
+selected_fuel = st.radio("Select Fuel:", cleaned_data["Fuel"].unique())
+selected_seller_type = st.radio("Select Seller Type:", cleaned_data["Seller_Type"].unique())
+selected_transmission = st.radio("Select Transmission:", cleaned_data["Transmission"].unique())
+selected_owner = st.radio("Select Owner:", cleaned_data["Owner"].unique())
 
 # Create a DataFrame from the user inputs
 input_data = pd.DataFrame({'Car_Brand': [selected_brand],
@@ -95,19 +97,17 @@ input_data = pd.DataFrame({'Car_Brand': [selected_brand],
     'Owner': [selected_owner]
 })
 
-# Preprocess the user input data using the loaded label encoders
+# Preprocess the user input data using the same label encoders
 input_data_encoded = preprocess_data(input_data.copy(), label_encoders)
 
-# Standardize numerical features using the loaded scaler
+# Standardize numerical features using scikit-learn's StandardScaler
+scaler = StandardScaler()
 numerical_cols = ['Year', 'Km_Driven']
-input_data_encoded[numerical_cols] = scaler.transform(input_data_encoded[numerical_cols])
+input_data_encoded[numerical_cols] = scaler.fit_transform(input_data_encoded[numerical_cols])
 
 # Make prediction using the loaded model
-if st.button("Estimate Price"):
+if st.button("Predict Selling Price"):
     # Make predictions
     predicted_price = loaded_model.predict(input_data_encoded)
-    st.subheader("Estimated Resale Price:")
-    st.write(f"The estimated resale price is: **_{predicted_price[0]:,.2f}_**")
-    
-    # Add an image for car price prediction
-    st.image("https://your-new-image-url.com/car_image.jpg", caption="Your Future Car!", use_column_width=True)  # Replace with your image URL
+    st.subheader("Predicted Selling Price:")
+    st.write(f"The predicted selling price is: **_{predicted_price[0]:,.2f}_**")
