@@ -1,26 +1,15 @@
-import pickle as pkl
 import pandas as pd
+import pickle
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
 
-# Load and prepare dataset
-df = pd.read_csv('Car_Details_Cleaned_Dataset.csv')
+# Load your cleaned dataset
+cleaned_data = pd.read_csv('Car_Details_Cleaned_Dataset.csv')
 
-# List of numerical columns
-numerical_col = ['Year', 'Km_Driven']
-
-# Prepare features for scaling
-x = df.drop(["Selling_Price"], axis=1)
-y = df["Selling_Price"]
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
-
-# Initialize and fit StandardScaler on numerical columns
+# Fit the scaler on numerical features
 scaler = StandardScaler()
-x_train[numerical_col] = scaler.fit_transform(x_train[numerical_col])
+numerical_cols = ['Year', 'Km_Driven']
+scaler.fit(cleaned_data[numerical_cols])
 
-# Save the scaler to scaler.pkl
+# Save the scaler
 with open('scaler.pkl', 'wb') as file:
-    pkl.dump(scaler, file)
-
-print("Scaler saved as 'scaler.pkl'")
+    pickle.dump(scaler, file)
