@@ -27,7 +27,7 @@ for feature in category_col:
     label_encoders[feature] = label_encoder
 
 # Add CSS for background image
-image_path =<a href="https://imgbb.com/"><img src="https://i.ibb.co/BtHH4RG/gettyimages-1307086567-612x612.jpg" alt="gettyimages-1307086567-612x612" border="0"></a> # Replace with your new image URL
+image_path = "https://raw.githubusercontent.com/vishal-verma-96/Capstone_Project_By_Skill_Academy/main/new_background_image.jpg"  # Replace with your new image URL
 st.markdown(
     f"""
     <style>
@@ -111,3 +111,6 @@ if st.button("Estimate Price"):
     predicted_price = loaded_model.predict(input_data_encoded)
     st.subheader("Estimated Resale Price:")
     st.write(f"The estimated resale price is: **_{predicted_price[0]:,.2f}_**")
+    
+    # Add an image for car price prediction
+    st.image("https://your-new-image-url.com/car_image.jpg", caption="Your Future Car!", use_column_width=True)  # Replace with your image URL
