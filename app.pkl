@@ -1,1 +1,21 @@
+import pickle
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 
+# Ensure pickle is installed
+import pickle
+
+# Assuming model.pkl is in the same directory
+try:
+    loaded_model = pickle.load(open('app.pkl', 'rb'))
+    print("Model loaded successfully!")  # Add for debugging
+except FileNotFoundError:
+    print("Error: app.pkl not found!")
+except pickle.UnpicklingError as e:
+    print(f"Error loading model: {e}")  # Provide more details about unpickling error
+    # Consider retrying to load from a different source or recreating the pickle file
+
+# Load cleaned data (replace with your data loading logic)
+cleaned_data = pd.read_csv('Car_Details_Cleaned_Dataset.csv')
+
+# Your Streamlit app logic using loaded_model and cleaned_data
+...
