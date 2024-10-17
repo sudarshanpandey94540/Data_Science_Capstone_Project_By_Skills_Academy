@@ -1,13 +1,9 @@
-
 import pickle
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.datasets import make_regression
 
-# Create a sample dataset and train a model
-X, y = make_regression(n_samples=100, n_features=5, noise=0.1)
-model = RandomForestRegressor()
-model.fit(X, y)
-
-# Save the trained model as app.pkl
-with open('app.pkl', 'wb') as file:
-    pickle.dump(model, file)
+# Attempt to load the model
+try:
+    with open('app.pkl', 'rb') as file:
+        loaded_model = pickle.load(file)
+    print("Model loaded successfully.")
+except Exception as e:
+    print(f"Error loading model: {e}")
