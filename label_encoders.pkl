@@ -1,0 +1,24 @@
+import pickle as pkl
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
+# Load and prepare dataset
+df = pd.read_csv('Car_Details_Cleaned_Dataset.csv')
+
+# List of categorical columns
+categorical_col = ['Car_Brand', 'Car_Name', 'Fuel', 'Seller_Type', 'Transmission', 'Owner']
+
+# Initialize a dictionary to store LabelEncoders
+label_encoders = {}
+
+# Apply label encoding to each categorical column
+for col in categorical_col:
+    le = LabelEncoder()
+    df[col] = le.fit_transform(df[col])
+    label_encoders[col] = le
+
+# Save the label encoders to label_encoders.pkl
+with open('label_encoders.pkl', 'wb') as file:
+    pkl.dump(label_encoders, file)
+
+print("Label encoders saved as 'label_encoders.pkl'")
