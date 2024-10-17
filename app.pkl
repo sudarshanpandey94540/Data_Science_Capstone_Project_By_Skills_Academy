@@ -1,1 +1,4 @@
+git add app.pkl
+git commit -m "Add trained model file"
+git push origin main
 
