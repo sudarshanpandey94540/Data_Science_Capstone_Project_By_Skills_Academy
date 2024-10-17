@@ -1,0 +1,18 @@
+import pandas as pd
+
+# Load the dataset
+
+car_data = pd.read_csv("CAR DETAILS.csv")
+
+# Display basic information and the first few rows of the dataset
+car_data_info = car_data.info()
+car_data_head = car_data.head()
+
+# Check for missing values
+missing_values = car_data.isnull().sum()
+
+# Display summary statistics
+summary_stats = car_data.describe()
+
+
+car_data_info, car_data_head, missing_values, summary_stats
