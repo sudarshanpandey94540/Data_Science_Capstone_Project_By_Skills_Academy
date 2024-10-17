@@ -1,9 +1,1 @@
-import pickle
 
-# Attempt to load the model
-try:
-    with open('app.pkl', 'rb') as file:
-        loaded_model = pickle.load(file)
-    print("Model loaded successfully.")
-except Exception as e:
-    print(f"Error loading model: {e}")
