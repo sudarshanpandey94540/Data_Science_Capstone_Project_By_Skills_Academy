@@ -1,11 +1,10 @@
-# Saving the trained XGBoost model
 import pickle as pkl
 
-# Train the model (this is already part of your provided code)
+
 xgb = XGBRegressor()
 xgb.fit(x_train, y_train)
 
-# Save the model to 'app.pkl'
+
 with open('app.pkl', 'wb') as file:
     pkl.dump(xgb, file)
 
