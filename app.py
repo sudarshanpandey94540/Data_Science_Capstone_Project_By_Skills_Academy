@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import pickle
-from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 # Load the model
 loaded_model = pickle.load(open('app.pkl', 'rb'))
@@ -12,19 +11,18 @@ cleaned_data = pd.read_csv('Car_Details_Cleaned_Dataset.csv')
 # Define categorical columns
 category_col = ['Car_Brand', 'Car_Name', 'Fuel', 'Seller_Type', 'Transmission', 'Owner']
 
+# Load the LabelEncoders used during training
+label_encoders = pickle.load(open('label_encoders.pkl', 'rb'))
+
+# Load the scaler used during training
+scaler = pickle.load(open('scaler.pkl', 'rb'))
+
 # Function for encoding data
 def preprocess_data(df, label_encoders):
     for feature in df.columns:
         if feature in label_encoders:
             df[feature] = label_encoders[feature].transform(df[feature])
     return df
-
-# Load the LabelEncoders used during training
-label_encoders = {}
-for feature in category_col:
-    label_encoder = LabelEncoder()
-    label_encoder.fit(cleaned_data[feature])
-    label_encoders[feature] = label_encoder
 
 # Add CSS for background image
 image_path = "https://raw.githubusercontent.com/vishal-verma-96/Capstone_Project_By_Skill_Academy/main/new_background_image.jpg"  # Replace with your new image URL
@@ -97,13 +95,12 @@ input_data = pd.DataFrame({'Car_Brand': [selected_brand],
     'Owner': [selected_owner]
 })
 
-# Preprocess the user input data using the same label encoders
+# Preprocess the user input data using the loaded label encoders
 input_data_encoded = preprocess_data(input_data.copy(), label_encoders)
 
-# Standardize numerical features using scikit-learn's StandardScaler
-scaler = StandardScaler()
+# Standardize numerical features using the loaded scaler
 numerical_cols = ['Year', 'Km_Driven']
-input_data_encoded[numerical_cols] = scaler.fit_transform(input_data_encoded[numerical_cols])
+input_data_encoded[numerical_cols] = scaler.transform(input_data_encoded[numerical_cols])
 
 # Make prediction using the loaded model
 if st.button("Estimate Price"):
