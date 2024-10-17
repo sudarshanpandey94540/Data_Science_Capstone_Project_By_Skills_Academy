@@ -1,4 +1,7 @@
-git add app.pkl
-git commit -m "Add trained model file"
-git push origin main
+with open('app.pkl', 'rb') as model_file:
+    try:
+        loaded_model = pickle.load(model_file)
+        print("Model loaded successfully:", loaded_model)
+    except Exception as e:
+        print("Error loading model:", e)
 
