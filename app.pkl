@@ -1,13 +1,12 @@
-with open('app.pkl', 'rb') as model_file:
-    try:
-        loaded_model = pickle.load(model_file)
-        print("Model loaded successfully:", loaded_model)
-    except Exception as e:
-        print("Error loading model:", e)
-import pickle
+# Saving the trained XGBoost model
+import pickle as pkl
 
-# Assuming 'model' is your trained ML model
+# Train the model (this is already part of your provided code)
+xgb = XGBRegressor()
+xgb.fit(x_train, y_train)
+
+# Save the model to 'app.pkl'
 with open('app.pkl', 'wb') as file:
-    pickle.dump(model, file)
+    pkl.dump(xgb, file)
 
 
